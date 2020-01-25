@@ -1,0 +1,21 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+server:
+  port: 8763
+spring:
+  application:
+    name: service-hi
+  datasource:
+    url: jdbc:mysql://localhost:3306/myblog?useUnicode=true&characterEncoding=utf-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: b312030060403
+
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate.ddl-auto: update
+    properties.hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
+
