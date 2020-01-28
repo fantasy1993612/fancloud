@@ -12,10 +12,27 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: b312030060403
-
+  cache:
+    type: redis
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: 2216919381
+    database: 5
   jpa:
     database: mysql
     show-sql: true
     hibernate.ddl-auto: update
     properties.hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
+
+logging:
+  level:
+    root: DEBUG
+    org:
+      hibernate: DEBUG
+  file: /Users/xiangming/IdeaProjects/log/fantasy.log
+  #定义日志文件路径
+  path: /Users/xiangming/IdeaProjects/log/
+  pattern:
+      console: '%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{15} - %msg%n'
 
