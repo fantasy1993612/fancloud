@@ -1,8 +1,6 @@
 package com.fantasy.eurekaclient;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.context.annotation.Bean;
@@ -10,48 +8,50 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.RedisSerializer;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.data.redis.serializer.*;
 
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 @Configuration
 public class RedisConfig extends CachingConfigurerSupport {
 
+    @Value("${cache.default.expire-time:1800}")
+    private int defaultExpireTime;
+    @Value("${cache.test.expire-time:1800}")
+    private int testExpireTime;
+    @Value("${cache.test.name:test}")
+    private String testCacheName;
+
+
+    //缓存管理器
     @Bean
-    public CacheManager cacheManager(RedisConnectionFactory factory) {
-        RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofSeconds(60))
+    public CacheManager cacheManager(RedisConnectionFactory lettuceConnectionFactory) {
+        RedisCacheConfiguration defaultCacheConfig = RedisCacheConfiguration.defaultCacheConfig();
+        // 设置缓存管理器管理的缓存的默认过期时间
+        defaultCacheConfig = defaultCacheConfig.entryTtl(Duration.ofSeconds(defaultExpireTime))
+                // 设置 key为string序列化
+                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
+                // 设置value为json序列化
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()))
+                // 不缓存空值
                 .disableCachingNullValues();
 
-        return RedisCacheManager.builder(factory)
-                .cacheDefaults(config)
-                .transactionAware()
+        Set<String> cacheNames = new HashSet<>();
+        cacheNames.add(testCacheName);
+
+        // 对每个缓存空间应用不同的配置
+        Map<String, RedisCacheConfiguration> configMap = new HashMap<>();
+        configMap.put(testCacheName, defaultCacheConfig.entryTtl(Duration.ofSeconds(testExpireTime)));
+
+        RedisCacheManager cacheManager = RedisCacheManager.builder(lettuceConnectionFactory)
+                .cacheDefaults(defaultCacheConfig)
+                .initialCacheNames(cacheNames)
+                .withInitialCacheConfigurations(configMap)
                 .build();
-    }
-
-    @Bean
-    public RedisTemplate redisTemplate(RedisConnectionFactory factory) {
-        StringRedisTemplate template = new StringRedisTemplate(factory);
-
-        RedisSerializer keySerializer = new StringRedisSerializer(); // 设置key序列化类，否则key前面会多了一些乱码
-        template.setKeySerializer(keySerializer);
-        setValueSerializer(template);//设置value序列化
-        template.afterPropertiesSet();
-        template.setEnableTransactionSupport(true);
-        return template;
-    }
-
-    private void setValueSerializer(StringRedisTemplate template) {
-        @SuppressWarnings({"rawtypes", "unchecked"})
-        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
-        ObjectMapper om = new ObjectMapper();
-        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-        jackson2JsonRedisSerializer.setObjectMapper(om);
-        template.setValueSerializer(jackson2JsonRedisSerializer);
+        return cacheManager;
     }
 }

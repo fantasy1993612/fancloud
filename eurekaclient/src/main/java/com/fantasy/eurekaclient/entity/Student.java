@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "student")
 @Data
-public class Student implements Serializable{
+public class Student implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)//自增主键
