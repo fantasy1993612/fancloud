@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  */
 @Entity
 @Data
-public class Activity {
+public class Activity extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)//自增主键
@@ -28,7 +28,7 @@ public class Activity {
     private String activityDescribe;
     //活动跳转方式
     @Column(nullable=false, length=128)
-    private String skipUrl;
+    private String skipWay;
     //活动图片id
     private String activityImgId;
     //活动开始时间

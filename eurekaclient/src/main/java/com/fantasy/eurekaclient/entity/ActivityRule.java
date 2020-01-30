@@ -14,7 +14,7 @@ import javax.persistence.Id;
  */
 @Entity
 @Data
-public class ActivityRule {
+public class ActivityRule extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

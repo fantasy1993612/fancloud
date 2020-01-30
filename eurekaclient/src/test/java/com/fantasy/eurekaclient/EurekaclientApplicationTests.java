@@ -92,5 +92,8 @@ public class EurekaclientApplicationTests {
         logger.info("学生缓存记录：{}",student);
     }
 
+    @Test
+    public void saveActivity() {
 
+    }
 }

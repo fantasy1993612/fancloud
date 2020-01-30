@@ -26,7 +26,6 @@ public class RedisConfig extends CachingConfigurerSupport {
     @Value("${cache.test.name:test}")
     private String testCacheName;
 
-
     //缓存管理器
     @Bean
     public CacheManager cacheManager(RedisConnectionFactory lettuceConnectionFactory) {
