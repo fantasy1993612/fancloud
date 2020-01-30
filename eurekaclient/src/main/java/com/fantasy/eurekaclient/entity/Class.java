@@ -4,10 +4,11 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+
 /**
- * 学生归属班级
+ *
  */
-@Entity
+//@Entity
 @Table(name = "class")
 @Data
 public class Class {

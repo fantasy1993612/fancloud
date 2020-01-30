@@ -6,8 +6,8 @@ import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
-@Table(name = "student")
+//@Entity
+//@Table(name = "student")
 @Data
 public class Student implements Serializable {
 

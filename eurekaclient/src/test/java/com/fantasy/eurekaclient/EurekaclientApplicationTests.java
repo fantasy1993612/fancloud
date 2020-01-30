@@ -4,7 +4,6 @@ import com.fantasy.eurekaclient.dao.StudentRepository;
 import com.fantasy.eurekaclient.entity.Student;
 import com.fantasy.eurekaclient.service.IRecordStudent;
 import com.fantasy.eurekaclient.service.IStudentInfo;
-import jdk.nashorn.internal.runtime.options.Option;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;

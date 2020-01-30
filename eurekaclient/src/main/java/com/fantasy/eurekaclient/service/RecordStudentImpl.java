@@ -7,6 +7,12 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
+/**
+ *
+ * @describtion: 学生记录
+ * @auther: xiangming
+ * @date: 2020/1/30 8:16 PM
+ */
 public class RecordStudentImpl implements IRecordStudent {
 
     @Autowired

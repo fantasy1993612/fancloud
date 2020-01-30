@@ -8,7 +8,7 @@ spring:
   application:
     name: service-hi
   datasource:
-    url: jdbc:mysql://localhost:3306/myblog?useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://localhost:3306/activity?useUnicode=true&characterEncoding=utf-8
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: b312030060403
