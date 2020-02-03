@@ -1,40 +1,23 @@
 package com.fantasy.eurekaclient.exception;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
 
-public abstract class BaseException extends RuntimeException {
-    /**
-     * Error errorData.
-     */
-    private Object errorData;
+import lombok.Data;
 
-    public BaseException(String message) {
+@Data
+public class BaseException extends RuntimeException {
+
+    private String code;
+
+    public BaseException(CommonErrorCode commonErrorCode){
+        super(commonErrorCode.getMessage());
+        this.code = commonErrorCode.getCode();
+    }
+
+    public BaseException(String code,String message){
         super(message);
+        this.code = code;
     }
 
-    public BaseException(String message, Throwable cause) {
-        super(message, cause);
-    }
 
-    @NonNull
-    public abstract HttpStatus getStatus();
 
-    @Nullable
-    public Object getErrorData() {
-        return errorData;
-    }
-
-    /**
-     * Sets error errorData.
-     *
-     * @param errorData error data
-     * @return current exception.
-     */
-    @NonNull
-    public BaseException setErrorData(@Nullable Object errorData) {
-        this.errorData = errorData;
-        return this;
-    }
 }

@@ -1,6 +1,7 @@
 package com.fantasy.eurekaclient.utils;
 
 import com.fantasy.eurekaclient.exception.BeanUtilsException;
+import com.fantasy.eurekaclient.exception.CommonErrorCode;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.BeansException;
 import org.springframework.lang.NonNull;
@@ -48,7 +49,7 @@ public class BeanUtils {
             // Return the target instance
             return targetInstance;
         } catch (Exception e) {
-            throw new BeanUtilsException("Failed to new " + targetClass.getName() + " instance or copy properties", e);
+            throw new BeanUtilsException(CommonErrorCode.NOT_FOUND_ACTIVITY);
         }
     }
 
@@ -88,7 +89,7 @@ public class BeanUtils {
         try {
             org.springframework.beans.BeanUtils.copyProperties(source, target, getNullPropertyNames(source));
         } catch (BeansException e) {
-            throw new BeanUtilsException("Failed to copy properties", e);
+            throw new BeanUtilsException(CommonErrorCode.NOT_FOUND_ACTIVITY);
         }
     }
 

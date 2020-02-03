@@ -2,6 +2,8 @@ package com.fantasy.eurekaclient.service.impl;
 
 import com.fantasy.eurekaclient.dao.ActivityRepository;
 import com.fantasy.eurekaclient.entity.Activity;
+import com.fantasy.eurekaclient.exception.ActivityException;
+import com.fantasy.eurekaclient.exception.CommonErrorCode;
 import com.fantasy.eurekaclient.model.dto.ActivityDto;
 import com.fantasy.eurekaclient.params.ActivityParam;
 import com.fantasy.eurekaclient.service.IActivityService;
@@ -40,7 +42,7 @@ public class ActivityServiceImpl implements IActivityService {
     public void checkHotActivity(Integer activityId) {
         Optional<Activity> activity = queryHotActivity(activityId);
         if(activity.isPresent()){
-            //
+            throw new ActivityException(CommonErrorCode.NOT_FOUND_ACTIVITY);
         }
     }
 

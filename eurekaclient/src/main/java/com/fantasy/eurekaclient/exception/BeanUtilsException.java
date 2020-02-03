@@ -9,16 +9,8 @@ import org.springframework.http.HttpStatus;
  */
 public class BeanUtilsException extends BaseException {
 
-    public BeanUtilsException(String message) {
-        super(message);
+    public BeanUtilsException(CommonErrorCode commonErrorCode) {
+        super(commonErrorCode);
     }
 
-    public BeanUtilsException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    @Override
-    public HttpStatus getStatus() {
-        return HttpStatus.INTERNAL_SERVER_ERROR;
-    }
 }
