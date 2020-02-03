@@ -3,7 +3,6 @@ package com.fantasy.eurekaclient.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 /**
@@ -17,9 +16,9 @@ import java.time.LocalDateTime;
 public class Activity extends BaseEntity{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)//自增主键
+    @GeneratedValue(strategy = GenerationType.IDENTITY)//自增主键
     //主键
-    private Integer oid;
+    private Integer id;
     //活动名称
     @Column(nullable=false, length=256)
     private String activityName;
@@ -30,6 +29,7 @@ public class Activity extends BaseEntity{
     @Column(nullable=false, length=128)
     private String skipWay;
     //活动图片id
+    @Column(nullable=false, length=256)
     private String activityImgId;
     //活动开始时间
     @Column(nullable=false)
@@ -38,11 +38,10 @@ public class Activity extends BaseEntity{
     @Column(nullable=false)
     private LocalDateTime endTime;
     //活动发布状态 0 未发布 1 已发布 2 暂停 3 灰度 4 已上线 5 已结束
+    @Column(nullable=false,columnDefinition = "tinyint default 0")
     private Integer status;
     //活动状态 0 未开启 1已开启
+    @Column(nullable=false,columnDefinition = "tinyint default 0")
     private Integer activityStatus;
 
-    private Timestamp createTime;
-
-    private Timestamp updateTime;
 }

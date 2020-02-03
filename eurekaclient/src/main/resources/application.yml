@@ -11,7 +11,7 @@ spring:
     url: jdbc:mysql://localhost:3306/activity?useUnicode=true&characterEncoding=utf-8
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: b312030060403
+    password: 2216919381
   redis:
     database: 0
     host: 127.0.0.1
@@ -30,7 +30,10 @@ spring:
       # 连接超时时间
     timeout: 2000ms
   cache:
-    type: redis
+    redis:
+      time-to-live: 1d
+      #写入redis时是否使用键前缀。
+      use-key-prefix: true
   jpa:
     database: mysql
     show-sql: true
@@ -48,9 +51,9 @@ cache:
 
 logging:
   level:
-    root: DEBUG
+    root: INFO
     org:
-      hibernate: DEBUG
+      hibernate: INFO
   file: /Users/xiangming/IdeaProjects/log/fantasy.log
   #定义日志文件路径
   path: /Users/xiangming/IdeaProjects/log/

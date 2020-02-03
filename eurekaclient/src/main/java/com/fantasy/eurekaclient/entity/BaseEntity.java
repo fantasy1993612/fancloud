@@ -3,7 +3,6 @@ package com.fantasy.eurekaclient.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.apache.commons.lang.time.DateUtils;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -18,19 +17,19 @@ import java.util.Date;
 public class BaseEntity {
 
     /**
-     * create time
+     * 创建时间
      */
     @Column(columnDefinition = "timestamp default CURRENT_TIMESTAMP")
     private Date createTime;
     /**
-     * Update time.
+     * 更新时间
      */
     @Column(name = "update_time", columnDefinition = "timestamp default CURRENT_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateTime;
 
     /**
-     * Delete flag.
+     * 是否删除标志
      */
     @Column(name = "deleted", columnDefinition = "TINYINT default 0")
     private Boolean deleted = false;

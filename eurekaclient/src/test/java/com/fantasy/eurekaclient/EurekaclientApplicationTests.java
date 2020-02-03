@@ -2,6 +2,10 @@ package com.fantasy.eurekaclient;
 
 import com.fantasy.eurekaclient.dao.StudentRepository;
 import com.fantasy.eurekaclient.entity.Student;
+import com.fantasy.eurekaclient.params.ActivityParam;
+import com.fantasy.eurekaclient.params.DrawAwardParam;
+import com.fantasy.eurekaclient.service.IActivityService;
+import com.fantasy.eurekaclient.service.IDrawAwardService;
 import com.fantasy.eurekaclient.service.IRecordStudent;
 import com.fantasy.eurekaclient.service.IStudentInfo;
 import org.junit.Test;
@@ -13,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.*;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +31,12 @@ public class EurekaclientApplicationTests {
 
     @Autowired
     private IRecordStudent recordStudent;
+
+    @Autowired
+    private IActivityService activityService;
+
+    @Autowired
+    private IDrawAwardService drawAwardService;
 
     @Test
     public void testRepository() {
@@ -67,7 +78,7 @@ public class EurekaclientApplicationTests {
     @Test
     public void multiQuery() {
         Student student = new Student();
-        student.setOid(1);
+        student.setId(1);
         student.setEmail("xiangming");
         student.setLastName("fantasy");
         Example<Student> studentExample = Example.of(student);
@@ -77,7 +88,7 @@ public class EurekaclientApplicationTests {
         }
         //多条件查询方法2
         Optional<Student> studentOptional1 =
-                userRepository.findByOidAndEmailAndLastName(1, "xiangming", "fantasy");
+                userRepository.findByIdAndEmailAndLastName(1, "xiangming", "fantasy");
         if (studentOptional1.isPresent()) {
             logger.info("多条件查询学生信息：{}", studentOptionl.get());
         }
@@ -94,6 +105,22 @@ public class EurekaclientApplicationTests {
 
     @Test
     public void saveActivity() {
+        ActivityParam activityParam = new ActivityParam();
+        activityParam.setActivityName("初始活动");
+        activityParam.setActivityDescribe("活动描述");
+        activityParam.setActivityImgId("323");
+        activityParam.setActivityStatus(1);
+        activityParam.setStartTime(LocalDateTime.now());
+        activityParam.setEndTime(LocalDateTime.now());
+        activityParam.setSkipWay("sd");
+        activityParam.setStatus(1);
+        activityService.save(activityParam);
+    }
 
+    @Test
+    public void drawAward(){
+        DrawAwardParam drawAwardParam = new DrawAwardParam();
+        drawAwardParam.setActivityId(1);
+        drawAwardService.drawAward(drawAwardParam);
     }
 }

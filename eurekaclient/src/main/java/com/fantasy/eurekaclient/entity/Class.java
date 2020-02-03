@@ -8,14 +8,14 @@ import javax.persistence.*;
 /**
  *
  */
-//@Entity
+@Entity
 @Table(name = "class")
 @Data
 public class Class {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)//自增主键
-    private Integer oid;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)//自增主键
+    private Integer id;
 
     @Column(nullable = false)
     private Integer studentId;

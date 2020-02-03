@@ -2,10 +2,7 @@ package com.fantasy.eurekaclient.entity;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * @Auther: xiangming
@@ -17,13 +14,15 @@ import javax.persistence.Id;
 public class ActivityRule extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private String oid;
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     //活动id
+    @Column(nullable=false, length=256)
     private String activityId;
     //规则标题
+    @Column(nullable=false, length=256)
     private String ruleTitle;
     //规则内容
+    @Column(nullable=false,columnDefinition = "varchar(2047) default ''")
     private String ruleContent;
 }
