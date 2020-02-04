@@ -1,7 +1,7 @@
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://localhost:8755/eureka/
 server:
   port: 8763
 spring:
@@ -11,7 +11,7 @@ spring:
     url: jdbc:mysql://localhost:3306/activity?useUnicode=true&characterEncoding=utf-8
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: b312030060403
+    password: 2216919381
   redis:
     database: 0
     host: 127.0.0.1
@@ -41,6 +41,8 @@ spring:
       ddl-auto: update
       dialect:
         storage_engine: innodb
+  zipkin:
+    base-url: http://localhost:9411
 
 cache:
   test:
