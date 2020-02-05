@@ -11,23 +11,33 @@ package com.fantasy;/**
  */
 public class SLList {
 
-    public IntNode first;
+    private static class Node {
+        public int item;
+        public Node next;
 
-    SLList(int x){
-        this.first = new IntNode(x,null);
+        Node(int first, Node intList) {
+            this.item = first;
+            this.next = intList;
+        }
+    }
+
+    private Node first;
+
+    SLList(int x) {
+        this.first = new Node(x, null);
     }
 
     public static void main(String[] args) {
-        SLList  l = new SLList(10);
+        SLList l = new SLList(10);
         l.addFirst(5);
         l.addFirst(290);
     }
 
-    public void addFirst(int x){
-        this.first = new IntNode(x,this.first);
+    public void addFirst(int x) {
+        this.first = new Node(x, this.first);
     }
 
-    public int getFirst(){
+    public int getFirst() {
         return first.item;
     }
 }
