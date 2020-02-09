@@ -41,13 +41,13 @@ public class ActivityServiceImpl implements IActivityService {
     @Override
     public void checkHotActivity(Integer activityId) {
         Optional<Activity> activity = queryHotActivity(activityId);
-        if(activity.isPresent()){
+        if(!activity.isPresent()){
             throw new ActivityException(CommonErrorCode.NOT_FOUND_ACTIVITY);
         }
     }
 
     @Override
-    @Cacheable(value = "hotActivity",key = "activity:hotActivity:#activityId")
+    @Cacheable(value = "activity",key = "'activity:hotActivity:'+#activityId")
     public Optional<Activity> queryHotActivity(Integer activityId) {
         return activityRepository.findById(activityId);
     }

@@ -2,9 +2,16 @@ package com.fantasy.eurekaclient.model.dto;
 
 import com.fantasy.eurekaclient.entity.Activity;
 import com.fantasy.eurekaclient.model.OutputConverter;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
+/**
+ * @Author: xiangming
+ * @Date: 2020-02-06-19:15
+ * @Describetion:活动Dto类
+ */
+@Data
 public class ActivityDto implements OutputConverter<ActivityDto,Activity> {
 
     /**

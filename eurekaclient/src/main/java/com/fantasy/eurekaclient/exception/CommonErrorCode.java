@@ -1,6 +1,5 @@
 package com.fantasy.eurekaclient.exception;
 
-import lombok.Data;
 import lombok.Getter;
 
 /**
@@ -11,10 +10,18 @@ import lombok.Getter;
 @Getter
 public enum CommonErrorCode {
 
+    /**
+     * 活动不存在错误
+     */
     NOT_FOUND_ACTIVITY("0001", "活动不存在");
 
+    /**
+     * 错误码
+     */
     private String code;
-
+    /**
+     * 错误消息
+     */
     private String message;
 
     CommonErrorCode(String code, String message) {

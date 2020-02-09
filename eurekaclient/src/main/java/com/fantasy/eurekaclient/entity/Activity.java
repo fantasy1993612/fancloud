@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 /**
  *
  * @describtion: 活动实体类
- * @auther: xiangming
+ * @author: xiangming
  * @date: 2020/1/30 8:17 PM
  */
 @Entity

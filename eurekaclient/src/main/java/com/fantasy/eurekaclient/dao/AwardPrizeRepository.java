@@ -1,7 +1,6 @@
 package com.fantasy.eurekaclient.dao;
 
 import com.fantasy.eurekaclient.entity.AwardPrize;
-import com.fantasy.eurekaclient.service.IAwardInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -17,14 +16,18 @@ import java.util.List;
 @Repository
 public interface AwardPrizeRepository extends JpaRepository<AwardPrize, Integer> {
 
+    /**
+     * 通过活动id查询活动
+     * @param activityId
+     * @return
+     */
     List<AwardPrize> findByActivityId(Integer activityId);
 
-    @Query(nativeQuery = true,
-            value = "SELECT cl.student_id AS studentId,st.last_name AS lastName " +
-                    "FROM class cl,student st " +
-                    "WHERE cl.student_id = st.id")
-    List<IAwardInfo> queryAwardInfo(Integer activityId);
 
+    /**
+     * 更新奖品数量
+     * @param id
+     */
     @Modifying
     @Query(nativeQuery = true,
             value = "update award_prize set remain_num = remain_num -1 where id =?1")
