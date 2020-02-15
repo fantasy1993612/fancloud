@@ -20,6 +20,11 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * @author: xiangming
+ * @date: 2020/1/30 8:17 PM
+ * @describtion: redis 配置类
+ */
 @Configuration
 public class RedisConfig extends CachingConfigurerSupport {
 
@@ -34,7 +39,11 @@ public class RedisConfig extends CachingConfigurerSupport {
     private LettuceConnectionFactory lettuceConnectionFactory;
 
 
-    //缓存管理器
+    /**
+     * 缓存管理器
+     *
+     * @return CacheMana·ger
+     */
     @Bean
     @Override
     public CacheManager cacheManager() {
@@ -53,7 +62,7 @@ public class RedisConfig extends CachingConfigurerSupport {
         cacheNames.add(testCacheName);
 
         // 对每个缓存空间应用不同的配置
-        Map<String, RedisCacheConfiguration> configMap = new HashMap<>();
+        Map<String, RedisCacheConfiguration> configMap = new HashMap<>(16);
         configMap.put(testCacheName, defaultCacheConfig.entryTtl(Duration.ofSeconds(testExpireTime)));
 
         lettuceConnectionFactory.setShareNativeConnection(false);
@@ -71,8 +80,8 @@ public class RedisConfig extends CachingConfigurerSupport {
         connectionFactory.setShareNativeConnection(false);
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(connectionFactory);
-        redisTemplate.setKeySerializer(new StringRedisSerializer());//key序列化
-        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());//value序列化
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
         redisTemplate.afterPropertiesSet();
         return redisTemplate;
     }

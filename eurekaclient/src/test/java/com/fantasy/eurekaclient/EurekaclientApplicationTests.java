@@ -1,7 +1,10 @@
 package com.fantasy.eurekaclient;
 
+import com.fantasy.eurekaclient.dao.ActivityTaskMapper;
 import com.fantasy.eurekaclient.dao.AwardPrizeRepository;
 import com.fantasy.eurekaclient.entity.AwardPrize;
+import com.fantasy.eurekaclient.entity.Task;
+import com.fantasy.eurekaclient.model.dto.TaskDto;
 import com.fantasy.eurekaclient.params.ActivityParam;
 import com.fantasy.eurekaclient.params.DrawAwardParam;
 import com.fantasy.eurekaclient.service.IActivityService;
@@ -44,6 +47,9 @@ public class EurekaclientApplicationTests {
     @Rule
     public ContiPerfRule contiPerfRule = new ContiPerfRule();
 
+    @Autowired
+    private ActivityTaskMapper activityTaskMapper;
+
 
     @Test
     public void saveActivity() {
@@ -60,6 +66,19 @@ public class EurekaclientApplicationTests {
             activityService.save(activityParam);
         }
         log.info("保存成功");
+    }
+
+    /**
+     * 分页查询活动
+     */
+    @Test
+    public void queryActivityInfoByPage(){
+        //activityService.queryActivityInfoByPage(0,10);
+    }
+
+    @Test
+    public void queryHotActivityList(){
+        activityService.queryHotActivityInfo(0,10);
     }
 
     @Test
@@ -102,8 +121,8 @@ public class EurekaclientApplicationTests {
     }
 
     @Test
-    public void drawAward(){
-        for(int i = 0; i < 1000; i++) {
+    public void drawAward() {
+        for (int i = 0; i < 1000; i++) {
             DrawAwardParam drawAwardParam = new DrawAwardParam();
             drawAwardParam.setActivityId(1);
             drawAwardService.drawAward(drawAwardParam);
@@ -111,10 +130,26 @@ public class EurekaclientApplicationTests {
     }
 
     @Test
-    @PerfTest(threads=100,invocations = 10000)
-    public void testConcurrencyRedis(){
+    @PerfTest(threads = 100, invocations = 10000)
+    public void testConcurrencyRedis() {
         DrawAwardParam drawAwardParam = new DrawAwardParam();
         drawAwardParam.setActivityId(1);
         drawAwardService.drawAward(drawAwardParam);
     }
+
+    @Test
+    public void initTask() {
+        Task task = new Task();
+        task.setActivityId(1);
+        task.setTaskDescribe("任务");
+        task.setTaskName("任务");
+    }
+
+    @Test
+    public void queryTaskInfo() {
+        TaskDto taskDto = activityTaskMapper.queryTaskInfo(1);
+        log.info("任务信息：{}",taskDto);
+    }
+
+
 }

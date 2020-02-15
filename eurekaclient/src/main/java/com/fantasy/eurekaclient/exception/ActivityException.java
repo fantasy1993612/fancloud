@@ -1,13 +1,8 @@
-package com.fantasy.eurekaclient.exception;/**
- * @Auther: xiangming
- * @Date: 2020/2/4 01:14
- * @Description:
- */
-
+package com.fantasy.eurekaclient.exception;
 /**
- * @Auther: xiangming
+ * @Author: xiangming
  * @Date: 2020/2/4 01:14
- * @Description:
+ * @Description:活动异常
  */
 public class ActivityException extends BaseException{
 

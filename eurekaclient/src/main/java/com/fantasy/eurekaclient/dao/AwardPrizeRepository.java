@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @Author: xiangming
  * @Date: 2020-02-02-00:39
- * @Describetion
+ * @Describetion: 奖项
  */
 @Repository
 public interface AwardPrizeRepository extends JpaRepository<AwardPrize, Integer> {

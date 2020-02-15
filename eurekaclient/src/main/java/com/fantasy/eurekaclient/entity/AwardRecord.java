@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 /**
  * @Author: xiangming
  * @Date: 2020-02-02-18:15
- * @Describetion
+ * @Describetion：中奖记录
  */
 @Data
 @Entity

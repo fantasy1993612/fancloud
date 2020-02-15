@@ -9,14 +9,17 @@ import com.fantasy.eurekaclient.params.ActivityParam;
 import com.fantasy.eurekaclient.service.IActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author: xiangming
+ * @date: 2020/1/30 8:17 PM
+ * @describtion: 活动实体类
+ */
 @Service
 public class ActivityServiceImpl implements IActivityService {
 
@@ -30,10 +33,8 @@ public class ActivityServiceImpl implements IActivityService {
     }
 
     @Override
-    public Page<ActivityDto> queryActivityInfoByPage(Integer  page){
-        Sort sort = new Sort(Sort.Direction.ASC, "updateTime");
-        Pageable pageable = PageRequest.of(page,2, sort);
-
+    public Page<ActivityDto> queryActivityInfoByPage(Integer currentPage, Integer pageSize,Sort sort) {
+        Pageable pageable = PageRequest.of(currentPage, pageSize, sort);
         Page<Activity> activityPage = activityRepository.findAll(pageable);
         return activityPage.map(this::convertToDto);
     }
@@ -41,19 +42,35 @@ public class ActivityServiceImpl implements IActivityService {
     @Override
     public void checkHotActivity(Integer activityId) {
         Optional<Activity> activity = queryHotActivity(activityId);
-        if(!activity.isPresent()){
+        if (!activity.isPresent()) {
             throw new ActivityException(CommonErrorCode.NOT_FOUND_ACTIVITY);
         }
     }
 
     @Override
-    @Cacheable(value = "activity",key = "'activity:hotActivity:'+#activityId")
+    @Cacheable(value = "activity", key = "'activity:hotActivity:'+#activityId")
     public Optional<Activity> queryHotActivity(Integer activityId) {
         return activityRepository.findById(activityId);
     }
 
-    public ActivityDto convertToDto(Activity activity){
-            return new ActivityDto().convertFrom(activity);
+    @Override
+    public Page<ActivityDto> queryHotActivityInfo(Integer currentPage, Integer pageSize) {
+        Sort sort = new Sort(Sort.Direction.ASC, "createTime");
+        Page<Activity> activityPage = activityRepository.
+                findAll(Example.of(buildQueryActivity()), PageRequest.of(currentPage, pageSize, sort));
+        return activityPage.map(this::convertToDto);
+
+    }
+
+    public ActivityDto convertToDto(Activity activity) {
+        return new ActivityDto().convertFrom(activity);
+    }
+
+    public Activity buildQueryActivity() {
+        Activity activity = new Activity();
+        activity.setStatus(2);
+        activity.setActivityStatus(1);
+        return activity;
     }
 
 }

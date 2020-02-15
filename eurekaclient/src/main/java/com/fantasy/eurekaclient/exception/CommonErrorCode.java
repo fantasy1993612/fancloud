@@ -3,9 +3,9 @@ package com.fantasy.eurekaclient.exception;
 import lombok.Getter;
 
 /**
- * @Auther: xiangming
- * @Date: 2020/2/4 01:05
- * @Description:
+ * @author: xiangming
+ * @date: 2020/1/30 8:17 PM
+ * @describtion: 错误码
  */
 @Getter
 public enum CommonErrorCode {

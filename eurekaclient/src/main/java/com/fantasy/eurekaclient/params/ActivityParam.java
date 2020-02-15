@@ -12,7 +12,9 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 /**
- * 活动入参
+ * @author: xiangming
+ * @date: 2020/1/30 8:17 PM
+ * @describtion: 活动实体类
  */
 @Data
 public class ActivityParam implements InputConverter<Activity> {
@@ -30,15 +32,14 @@ public class ActivityParam implements InputConverter<Activity> {
     @Max(value = 3, message = "活动状态最高为 {value}")
     private Integer status;
 
-    //活动跳转方式
     private String skipWay;
-    //活动图片id
+
     private String activityImgId;
-    //活动开始时间
+
     private LocalDateTime startTime;
-    //活动结束时间
+
     private LocalDateTime endTime;
-    //活动状态 0 未开启 1已开启
+
     private Integer activityStatus;
 
 }

@@ -5,6 +5,11 @@ import lombok.Data;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * @author: xiangming
+ * @date: 2020/1/31 01:19
+ * @description: 奖品配置实体类
+ */
 @Entity
 @Data
 public class AwardConfig {

@@ -7,13 +7,15 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.util.Date;
 
+/**
+ * @author: xiangming
+ * @date: 2020/1/30 8:17 PM
+ * @describtion: 基础类 每张表都应该有创建时间和更新时间
+ */
 @MappedSuperclass
 @Data
 @ToString
 @EqualsAndHashCode
-/**
- * 基础类 每张表都应该有创建时间和更新时间
- */
 public class BaseEntity {
 
     /**
@@ -32,11 +34,11 @@ public class BaseEntity {
      * 是否删除标志
      */
     @Column(name = "deleted", columnDefinition = "TINYINT default 0")
-    private Boolean deleted = false;
+    private Integer deleted = 0;
 
     @PrePersist
     protected void prePersist() {
-        deleted = false;
+        deleted = 0;
         Date now = new Date();
         if (createTime == null) {
             createTime = now;

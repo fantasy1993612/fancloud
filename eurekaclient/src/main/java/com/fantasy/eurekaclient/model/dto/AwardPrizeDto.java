@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 /**
  * @Author: xiangming
  * @Date: 2020-02-06-19:15
- * @Describetion
+ * @Describetion：奖项类
  */
 @ApiModel(description = "奖项类")
 @Data
