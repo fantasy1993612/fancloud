@@ -72,18 +72,17 @@ public class EurekaclientApplicationTests {
      * 分页查询活动
      */
     @Test
-    public void queryActivityInfoByPage(){
+    public void queryActivityInfoByPage() {
         //activityService.queryActivityInfoByPage(0,10);
     }
 
     @Test
-    public void queryHotActivityList(){
-        activityService.queryHotActivityInfo(0,10);
+    public void queryHotActivityList() {
+        activityService.queryHotActivityInfo(0, 10);
     }
 
     @Test
     public void saveAwardPrize() {
-
         List<AwardPrize> awardPrizeList = new ArrayList<>();
         for (int i = 0; i < 300; i++) {
             awardPrizeList.add(buildAwardPrize());
@@ -122,15 +121,13 @@ public class EurekaclientApplicationTests {
 
     @Test
     public void drawAward() {
-        for (int i = 0; i < 1000; i++) {
-            DrawAwardParam drawAwardParam = new DrawAwardParam();
-            drawAwardParam.setActivityId(1);
-            drawAwardService.drawAward(drawAwardParam);
-        }
+        DrawAwardParam drawAwardParam = new DrawAwardParam();
+        drawAwardParam.setActivityId(1);
+        drawAwardService.drawAward(drawAwardParam);
     }
 
     @Test
-    @PerfTest(threads = 100, invocations = 10000)
+    @PerfTest(threads = 1000, invocations = 1000,duration = 5000)
     public void testConcurrencyRedis() {
         DrawAwardParam drawAwardParam = new DrawAwardParam();
         drawAwardParam.setActivityId(1);
@@ -148,7 +145,7 @@ public class EurekaclientApplicationTests {
     @Test
     public void queryTaskInfo() {
         TaskDto taskDto = activityTaskMapper.queryTaskInfo(1);
-        log.info("任务信息：{}",taskDto);
+        log.info("任务信息：{}", taskDto);
     }
 
 
