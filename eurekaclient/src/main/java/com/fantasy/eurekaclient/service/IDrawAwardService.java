@@ -1,9 +1,19 @@
 package com.fantasy.eurekaclient.service;
 
-import com.fantasy.eurekaclient.entity.AwardPrize;
+import com.fantasy.eurekaclient.model.dto.AwardPrizeDto;
 import com.fantasy.eurekaclient.params.DrawAwardParam;
 
+/**
+ * @author: xiangming
+ * @date: 2020/1/30 8:17 PM
+ * @describtion: 活动实体类
+ */
 public interface IDrawAwardService {
 
-    AwardPrize drawAward(DrawAwardParam drawAwardParam);
+    /**
+     * 抽奖
+     * @param drawAwardParam
+     * @return AwardPrizeDto
+     */
+    AwardPrizeDto drawAward(DrawAwardParam drawAwardParam);
 }

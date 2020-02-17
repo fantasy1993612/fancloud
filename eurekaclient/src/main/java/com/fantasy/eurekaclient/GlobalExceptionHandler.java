@@ -13,16 +13,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @Auther: xiangming
- * @Date: 2020/2/4 01:18
- * @Description: 统一异常处理
+ * @author: xiangming
+ * @date: 2020/1/30 8:17 PM
+ * @describtion: 统一异常分处理
  */
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ActivityException.class)
     public Map<String, Object> handleUserNotExistsException(ActivityException e) {
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>(16);
         map.put("code", e.getCode());
         map.put("message", e.getMessage());
         return map;

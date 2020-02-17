@@ -3,6 +3,11 @@ package com.fantasy.eurekaclient.exception;
 
 import lombok.Data;
 
+/**
+ * @author: xiangming
+ * @date: 2020/1/30 8:17 PM
+ * @describtion: 基础类异常
+ */
 @Data
 public class BaseException extends RuntimeException {
 

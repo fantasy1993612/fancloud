@@ -13,8 +13,11 @@ import javax.persistence.*;
 @Data
 public class AwardTimes extends BaseEntity {
 
+    /**
+     * 主键
+     */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)//自增主键
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     /**
      * 任务id
