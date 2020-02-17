@@ -21,7 +21,13 @@ public class SLList {
         }
     }
 
+    public SLList() {
+        first = null;
+        size = 0;
+    }
+
     private Node first;
+    private int size;
 
     SLList(int x) {
         this.first = new Node(x, null);
@@ -34,10 +40,37 @@ public class SLList {
     }
 
     public void addFirst(int x) {
+        size++;
         this.first = new Node(x, this.first);
     }
 
     public int getFirst() {
         return first.item;
+    }
+
+    public void addLast(int x){
+        size += 1;
+        Node node = first;
+        while(node.next != null){
+            node = node.next;
+        }
+        node.next = new Node(x,null);
+    }
+
+    public int cacheSize(){
+        return size;
+    }
+
+
+    private static int size(Node node){
+        if(node.next == null){
+            return 1;
+        }
+
+        return 1+size(node.next);
+    }
+
+    public int size(){
+       return size(first);
     }
 }
