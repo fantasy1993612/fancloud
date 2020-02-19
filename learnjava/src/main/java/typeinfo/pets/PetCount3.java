@@ -21,7 +21,7 @@ public class PetCount3 {
 
 //        Counter() {
 //            super(LiteralPetCreator.ALL_TYPES.stream()
-//                    .map(lpc -> Pair.make(lpc, 0))
+//                    .map(lpc -> Pair(lpc, 0))
 //                    .collect(Collectors.toMap(Pair::key,Pair::value)));
 //        }
 
