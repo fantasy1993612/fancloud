@@ -1,14 +1,9 @@
-package com.fantasy.eurekaclient;/**
- * @Auther: xiangming
- * @Date: 2020/2/4 01:18
- * @Description:
- */
-
+package com.fantasy.eurekaclient;
 
 import com.fantasy.eurekaclient.exception.ActivityException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
+import com.fantasy.eurekaclient.model.response.BaseResponse;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,14 +12,11 @@ import java.util.Map;
  * @date: 2020/1/30 8:17 PM
  * @describtion: 统一异常分处理
  */
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ActivityException.class)
-    public Map<String, Object> handleUserNotExistsException(ActivityException e) {
-        Map<String, Object> map = new HashMap<>(16);
-        map.put("code", e.getCode());
-        map.put("message", e.getMessage());
-        return map;
+    public BaseResponse handleGlobalException(ActivityException e) {
+        return BaseResponse.fail(e.getCode(),e.getMessage());
     }
 }

@@ -1,7 +1,6 @@
 package com.fantasy.eurekaclient.controller;
 
 import com.fantasy.eurekaclient.model.dto.ActivityDto;
-import com.fantasy.eurekaclient.model.dto.AwardPrizeDto;
 import com.fantasy.eurekaclient.service.IActivityService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;

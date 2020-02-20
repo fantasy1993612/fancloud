@@ -1,6 +1,7 @@
 package com.fantasy.eurekaclient.controller;
 
 import com.fantasy.eurekaclient.model.dto.AwardPrizeDto;
+import com.fantasy.eurekaclient.model.response.BaseResponse;
 import com.fantasy.eurekaclient.params.DrawAwardParam;
 import com.fantasy.eurekaclient.service.IDrawAwardService;
 import io.swagger.annotations.Api;
@@ -25,8 +26,8 @@ public class DistributeAwardController {
 
     @ApiOperation(value = "领奖",response = AwardPrizeDto.class)
     @PostMapping("/drawAward")
-    public AwardPrizeDto drawAward(@RequestBody DrawAwardParam drawAwardParam){
-        return drawAwardService.drawAward(drawAwardParam);
+    public BaseResponse<AwardPrizeDto> drawAward(@RequestBody DrawAwardParam drawAwardParam){
+        return BaseResponse.ok(drawAwardService.drawAward(drawAwardParam));
     }
 
 }
