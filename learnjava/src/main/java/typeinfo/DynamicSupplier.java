@@ -20,6 +20,7 @@ public class DynamicSupplier<T> implements Supplier<T> {
     public DynamicSupplier(Class<T> type) {
         this.type = type;
     }
+    @Override
     public T get() {
         try {
             return type.newInstance();
