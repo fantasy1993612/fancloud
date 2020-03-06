@@ -15,7 +15,9 @@ public class MiniDuckSimulator {
     public static void main(String[] args) {
         Duck duck = new MallarDuck();
         duck.performFly();
-        duck.performQuack();
+        for (int i = 0; i < 10; i++) {
+
+        }
 
         Duck model = new ModelDark();
         model.performFly();

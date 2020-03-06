@@ -1,7 +1,7 @@
 package com.fantasy.eurekaclient.service.impl;
 
-import com.fantasy.eurekaclient.dao.AwardPrizeRepository;
-import com.fantasy.eurekaclient.entity.AwardPrize;
+import com.fantasy.eurekaclient.repository.AwardPrizeRepository;
+import com.fantasy.eurekaclient.model.entity.AwardPrize;
 import com.fantasy.eurekaclient.service.IAwardPrizeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

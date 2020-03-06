@@ -1,6 +1,6 @@
 package com.fantasy.eurekaclient.model.dto;
 
-import com.fantasy.eurekaclient.entity.AwardPrize;
+import com.fantasy.eurekaclient.model.entity.AwardPrize;
 import com.fantasy.eurekaclient.model.OutputConverter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

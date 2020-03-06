@@ -2,7 +2,7 @@ package com.fantasy.eurekaclient.controller;
 
 import com.fantasy.eurekaclient.model.dto.AwardPrizeDto;
 import com.fantasy.eurekaclient.model.response.BaseResponse;
-import com.fantasy.eurekaclient.params.DrawAwardParam;
+import com.fantasy.eurekaclient.model.params.DrawAwardParam;
 import com.fantasy.eurekaclient.service.IDrawAwardService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

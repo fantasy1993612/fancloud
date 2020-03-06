@@ -1,8 +1,8 @@
 package com.fantasy.eurekaclient.service;
 
-import com.fantasy.eurekaclient.entity.Activity;
+import com.fantasy.eurekaclient.model.entity.Activity;
 import com.fantasy.eurekaclient.model.dto.ActivityDto;
-import com.fantasy.eurekaclient.params.ActivityParam;
+import com.fantasy.eurekaclient.model.params.ActivityParam;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import java.util.Optional;

@@ -1,6 +1,6 @@
 package com.fantasy.eurekaclient.service;
 
-import com.fantasy.eurekaclient.entity.AwardPrize;
+import com.fantasy.eurekaclient.model.entity.AwardPrize;
 
 import java.util.List;
 

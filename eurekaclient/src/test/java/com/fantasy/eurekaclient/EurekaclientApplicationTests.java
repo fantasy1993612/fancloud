@@ -1,12 +1,10 @@
 package com.fantasy.eurekaclient;
 
-import com.fantasy.eurekaclient.dao.ActivityTaskMapper;
-import com.fantasy.eurekaclient.dao.AwardPrizeRepository;
-import com.fantasy.eurekaclient.entity.AwardPrize;
-import com.fantasy.eurekaclient.entity.Task;
-import com.fantasy.eurekaclient.model.dto.TaskDto;
-import com.fantasy.eurekaclient.params.ActivityParam;
-import com.fantasy.eurekaclient.params.DrawAwardParam;
+import com.fantasy.eurekaclient.repository.AwardPrizeRepository;
+import com.fantasy.eurekaclient.model.entity.AwardPrize;
+import com.fantasy.eurekaclient.model.entity.Task;
+import com.fantasy.eurekaclient.model.params.ActivityParam;
+import com.fantasy.eurekaclient.model.params.DrawAwardParam;
 import com.fantasy.eurekaclient.service.IActivityService;
 import com.fantasy.eurekaclient.service.IDrawAwardService;
 import lombok.extern.slf4j.Slf4j;
@@ -47,8 +45,6 @@ public class EurekaclientApplicationTests {
     @Rule
     public ContiPerfRule contiPerfRule = new ContiPerfRule();
 
-    @Autowired
-    private ActivityTaskMapper activityTaskMapper;
 
 
     @Test
@@ -142,11 +138,7 @@ public class EurekaclientApplicationTests {
         task.setTaskName("任务");
     }
 
-    @Test
-    public void queryTaskInfo() {
-        TaskDto taskDto = activityTaskMapper.queryTaskInfo(1);
-        log.info("任务信息：{}", taskDto);
-    }
+
 
 
 }

@@ -1,83 +1,55 @@
-package com.fantasy.eurekaclient.service.impl;
+package com.fantasy.eurekaclient.strategy.prize;
 
 import com.fantasy.eurekaclient.constant.DrawLevelLimitEnum;
 import com.fantasy.eurekaclient.model.entity.AwardConfig;
+import com.fantasy.eurekaclient.model.entity.AwardPrize;
 import com.fantasy.eurekaclient.model.entity.AwardTimes;
 import com.fantasy.eurekaclient.model.params.DrawAwardParam;
 import com.fantasy.eurekaclient.repository.AwardConfigRepository;
 import com.fantasy.eurekaclient.repository.AwardTimesRepository;
-import com.fantasy.eurekaclient.model.entity.AwardPrize;
-import com.fantasy.eurekaclient.model.dto.AwardPrizeDto;
 import com.fantasy.eurekaclient.service.IActivityService;
 import com.fantasy.eurekaclient.service.IAwardPrizeService;
 import com.fantasy.eurekaclient.service.IAwardTimesService;
-import com.fantasy.eurekaclient.service.IDrawAwardService;
-import com.google.common.util.concurrent.RateLimiter;
+import com.fantasy.eurekaclient.service.impl.AwardDistributeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 /**
- * @Author: xiangming
- * @Date: 2020-02-02-00:23
- * @Describetion: 抽奖实现类
+ * @author: xiangming
+ * @date: 2020/03/02 00:14
+ * @describetion:
  */
 @Slf4j
-@Service
-public class DrawAwardServiceImpl implements IDrawAwardService {
-
-    @Autowired
-    private IActivityService activityService;
+public class Prize<T extends DrawAwardParam> implements IPrize<T> {
 
     @Autowired
     private AwardConfigRepository awardConfigRepository;
 
-
     @Autowired
     private AwardTimesRepository awardTimesRepository;
-
 
     @Autowired
     private IAwardPrizeService awardPrizeService;
 
     @Autowired
-    private AwardDistributeService awardDistributeService;
-
-    @Autowired
     private StringRedisTemplate redisTemplate;
 
-    @Autowired
-    private IAwardTimesService awardTimesService;
 
-
-    @Transactional(rollbackFor = Exception.class)
     @Override
-    public AwardPrizeDto drawAward(DrawAwardParam drawAwardParam) {
-        RateLimiter rateLimiter = RateLimiter.create(5);
-        log.info("等待时间：{}", rateLimiter.acquire());
-        if (!rateLimiter.tryAcquire(1000, TimeUnit.MILLISECONDS)) {
-            log.info("短期无法获取令牌，真不幸，排队也瞎排");
-        }
-        //检查热门活动
-        activityService.checkHotActivity(drawAwardParam.getActivityId());
+    public List queryAwardInfo(T t) {
+        List<AwardPrize> awardPrizeList = awardPrizeService.queryAwardInfo(t.getActivityId());
+        return awardPrizeList;
+    }
 
-        Optional<AwardTimes> awardTimes = awardTimesService.queryAwardTimes(drawAwardParam.getActivityId(),
-                drawAwardParam.getIdNo());
-        //保存/更新领取次数
-        awardTimesRepository.save(buildAwardTimes(awardTimes,drawAwardParam.getActivityId()));
-
-        //查询奖品列表
-        List<AwardPrize> awardPrizeList = awardPrizeService.
-                queryAwardInfo(drawAwardParam.getActivityId());
-
+    @Override
+    public boolean checkLimitPrize(T t) {
+        List<AwardPrize> awardPrizeList = awardPrizeService.queryAwardInfo(t.getActivityId());
         AwardPrize awardPrize = awardPrizeList.get(1);
 
         //检查限制奖品数量 O(1)
@@ -85,16 +57,11 @@ public class DrawAwardServiceImpl implements IDrawAwardService {
                 LocalDateTime.now().getHour());
 
         //领取一等奖不能再领
-        if (checkDrawLimit(drawAwardParam.getActivityId(), drawAwardParam.getIdNo())) {
+        if (checkDrawLimit(t.getActivityId(), t.getIdNo())) {
             awardPrize = awardPrizeList.get(0);
             log.debug("用户不符合限制条件派发谢谢参与");
         }
-
-        //扣减奖品数量 O(1)
-        redisTemplate.opsForValue().decrement("activity:awardRemain:" + awardPrize.getId(), 1);
-        log.info("开始派奖：{}", awardPrize.getId());
-        awardDistributeService.distibuteAward(awardPrize);
-        return new AwardPrizeDto().convertFrom(awardPrize);
+        return true;
     }
 
     /**
@@ -121,21 +88,6 @@ public class DrawAwardServiceImpl implements IDrawAwardService {
     }
 
     /**
-     * 查询奖品配置信息
-     *
-     * @param activityId
-     * @return
-     */
-    private AwardConfig queryAwardConfig(Integer activityId) {
-        AwardConfig awardConfig = new AwardConfig();
-        awardConfig.setActivityId(activityId);
-        Example<AwardConfig> awardConfigExample = Example.of(awardConfig);
-        Optional<AwardConfig> awardConfigOptional = awardConfigRepository.
-                findOne(awardConfigExample);
-        return awardConfigOptional.get();
-    }
-
-    /**
      * 检查一等奖是否抽取过
      *
      * @param activityId
@@ -145,7 +97,6 @@ public class DrawAwardServiceImpl implements IDrawAwardService {
     public boolean checkIfDrawFirstPrize(Integer activityId, String idNo) {
         AwardTimes awardTimes = buildDrawTimes(activityId, idNo);
         awardTimes.setFirstPrizeCount(0);
-
         Example<AwardTimes> awardTimesExample = Example.of(awardTimes);
         return !awardTimesRepository.exists(awardTimesExample);
     }
@@ -178,15 +129,19 @@ public class DrawAwardServiceImpl implements IDrawAwardService {
         return awardTimes;
     }
 
-    public AwardTimes buildAwardTimes(Optional<AwardTimes> awardTimesOptional,Integer activityId) {
-        AwardTimes awardTimes = new AwardTimes();
-        if(awardTimesOptional.isPresent()){
-            awardTimes = awardTimesOptional.get();
-        }else{
-            awardTimes.setAwardTimes(1);
-        }
-        awardTimes.setActivityId(activityId);
-        return awardTimes;
+    /**
+     * 查询奖品配置信息
+     *
+     * @param activityId
+     * @return
+     */
+    private AwardConfig queryAwardConfig(Integer activityId) {
+        AwardConfig awardConfig = new AwardConfig();
+        awardConfig.setActivityId(activityId);
+        Example<AwardConfig> awardConfigExample = Example.of(awardConfig);
+        Optional<AwardConfig> awardConfigOptional = awardConfigRepository.
+                findOne(awardConfigExample);
+        return awardConfigOptional.get();
     }
 
 }
