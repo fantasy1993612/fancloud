@@ -31,8 +31,8 @@ public class ActivityController {
     @GetMapping("/queryActivity")
     public Page<ActivityDto> queryActivityInfo(Integer currentPage, Integer pageSize,
                                                @SortDefault.SortDefaults({
-            @SortDefault(sort = "createTime", direction = ASC)
-    }) Sort sort) {
-        return activityService.queryActivityInfoByPage(currentPage, pageSize,sort);
+                                                       @SortDefault(sort = "createTime", direction = ASC)
+                                               }) Sort sort) {
+        return activityService.queryActivityInfoByPage(currentPage, pageSize, sort);
     }
 }

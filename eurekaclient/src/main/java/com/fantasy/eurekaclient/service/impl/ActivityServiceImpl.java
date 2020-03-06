@@ -1,18 +1,17 @@
 package com.fantasy.eurekaclient.service.impl;
 
-import com.fantasy.eurekaclient.dao.ActivityRepository;
-import com.fantasy.eurekaclient.entity.Activity;
+import com.fantasy.eurekaclient.repository.ActivityRepository;
+import com.fantasy.eurekaclient.model.entity.Activity;
 import com.fantasy.eurekaclient.exception.ActivityException;
 import com.fantasy.eurekaclient.exception.CommonErrorCode;
 import com.fantasy.eurekaclient.model.dto.ActivityDto;
-import com.fantasy.eurekaclient.params.ActivityParam;
+import com.fantasy.eurekaclient.model.params.ActivityParam;
 import com.fantasy.eurekaclient.service.IActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 /**

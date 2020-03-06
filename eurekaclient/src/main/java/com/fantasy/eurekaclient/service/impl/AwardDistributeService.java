@@ -1,11 +1,14 @@
 package com.fantasy.eurekaclient.service.impl;
 
-import com.fantasy.eurekaclient.dao.AwardPrizeRepository;
-import com.fantasy.eurekaclient.dao.AwardRecordRepository;
-import com.fantasy.eurekaclient.entity.AwardPrize;
-import com.fantasy.eurekaclient.entity.AwardRecord;
+import com.fantasy.eurekaclient.constant.LogType;
+import com.fantasy.eurekaclient.event.LogEvent;
+import com.fantasy.eurekaclient.repository.AwardPrizeRepository;
+import com.fantasy.eurekaclient.repository.AwardRecordRepository;
+import com.fantasy.eurekaclient.model.entity.AwardPrize;
+import com.fantasy.eurekaclient.model.entity.AwardRecord;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,14 +31,23 @@ public class AwardDistributeService {
     @Autowired
     private AwardRecordRepository awardRecordRepository;
 
+    private final ApplicationEventPublisher eventPublisher;
 
+
+    public AwardDistributeService(ApplicationEventPublisher applicationEventPublisher){
+        eventPublisher = applicationEventPublisher;
+    }
     @Async
     @Transactional(rollbackFor = Exception.class)
     public void distibuteAward(AwardPrize awardPrize){
         log.info("开始异步派奖");
         //发奖
-        awardPrizeRepository.updateAwardRemainNum(awardPrize.getId());
-
+        int i = awardPrizeRepository.updateAwardRemainNum(awardPrize.getId());
+        if(i < 0){
+            LogEvent logEvent = new LogEvent(this, "tset",
+                    LogType.SHEET_PUBLISHED,"sa");
+            eventPublisher.publishEvent(logEvent);
+        }
         awardRecordRepository.save(buildAwardRecord());
 
     }

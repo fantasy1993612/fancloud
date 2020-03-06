@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fantasy.eurekaclient.repository.AwardPrizeDao">
+    <resultMap id="resultMap" type="com.fantasy.eurekaclient.model.dto.AwardPrizeDto">
+        <result property="id" column="id"/>
+        <result property="awardTimePeriodLimitId" column="award_time_period_limit_id"/>
+        <result property="taskId" column="task_id"/>
+        <result property="activityId" column="activity_id"/>
+        <result property="awardIndex" column="award_index"/>
+        <result property="rate" column="rate"/>
+        <result property="prizeName" column="prize_name"/>
+        <result property="awardItemName" column="award_item_name"/>
+        <result property="awardItemPrice" column="award_item_price"/>
+        <result property="num" column="num"/>
+        <result property="remainNum" column="remain_num"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="deleted" column="deleted"/>
+    </resultMap>
+    <sql id="columns">
+select 
+t1.id,t1.award_time_period_limit_id,t1.task_id,t1.activity_id,t1.award_index,t1.rate,t1.prize_name,t1.award_item_name,t1.award_item_price,t1.num,t1.remain_num,t1.create_time,t1.update_time,t1.deleted
+ from tableName t1 
+</sql>
+    <select id="query" parameterType="com.fantasy.eurekaclient.service.query.AwardPrizeQuery" resultMap="resultMap">
+        <include refid="columns"/>
+    </select>
+    <insert id="batchAdd" parameterType="com.fantasy.eurekaclient.model.dto.AwardPrizeDto">
+        insert into
+        tableName(id,award_time_period_limit_id,task_id,activity_id,award_index,rate,prize_name,award_item_name,award_item_price,num,remain_num,create_time,update_time,deleted)
+        values<foreach collection="list" item="item" open="" close="" separator=",">
+            (#{item.id},#{item.awardTimePeriodLimitId},#{item.taskId},#{item.activityId},#{item.awardIndex},#{item.rate},#{item.prizeName},#{item.awardItemName},#{item.awardItemPrice},#{item.num},#{item.remainNum},#{item.createTime},#{item.updateTime},#{item.deleted})
+        </foreach><
+    /insert><
+/mapper>
