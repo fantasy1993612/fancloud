@@ -22,9 +22,11 @@ GlobalExceptionHandler 记录全局异常
 
 BaseResponse 返回消息包装类
 
-##### 正常逻辑抽奖
+##### 抽奖
 
-controller -> DistributeAwardController
+- 策略模式抽奖 代码strategy-> DistributeStrategy
+
+- 正常抽奖 controller -> DistributeAwardController
 
 抽奖逻辑分析 （可变不可变只，在不同活动场景判断方式变化）
 
@@ -41,10 +43,7 @@ controller -> DistributeAwardController
 - 派发奖品 （一般不变）
 - 保存中奖记录 （一般不变）
 
-##### 策略模式抽奖
 
-strategy-> DistributeStrategy
-公共派发方式
 
 
 
